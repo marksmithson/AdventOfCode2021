@@ -30,7 +30,7 @@ object Main extends App {
     println("")
   }
 
-  runDay(Day15)
+  runDay(Day16)
 
   println ("COMPLETED")
 
