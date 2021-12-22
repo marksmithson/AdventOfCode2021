@@ -23,14 +23,18 @@ object Main extends App {
     println(dayName)
     println("------------------")
     println("Part 1:")
+    val p1Start = System.currentTimeMillis()
     println(day.Part1(DataLoader.Load(dayName.toLowerCase)))
+    println(s"(${System.currentTimeMillis() - p1Start}ms)")
     println("")
     println("Part 2:")
+    val p2Start = System.currentTimeMillis()
     println(day.Part2(DataLoader.Load(dayName.toLowerCase)))
+    println(s"(${System.currentTimeMillis() - p2Start}ms)")
     println("")
   }
 
-  runDay(Day20)
+  runDay(Day21)
 
   println ("COMPLETED")
 
