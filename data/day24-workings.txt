@@ -1,0 +1,326 @@
+inp w       inp w       inp w      inp w      inp w     inp w     inp w      inp w        inp w        inp w      inp w       inp w      inp w     inp w
+mul x 0     mul x 0     mul x 0    mul x 0    mul x 0   mul x 0   mul x 0    mul x 0      mul x 0      mul x 0    mul x 0     mul x 0    mul x 0   mul x 0 -   x
+add x z     add x z     add x z    add x z    add x z   add x z   add x z    add x z      add x z      add x z    add x z     add x z    add x z   add x z -   x   x = z[n-1]
+mod x 26    mod x 26    mod x 26   mod x 26   mod x 26  mod x 26  mod x 26   mod x 26     mod x 26     mod x 26   mod x 26    mod x 26   mod x 26  mod x 26    x   x = z[n-1] % 26
+div z 1     div z 1     div z 1    div z 1    div z 1   div z 26  div z 1    div z 26     div z 26     div z 1    div z 26    div z 26   div z 26  div z 26    v   z = z[n-1]/ q    q= 1 or 26
+add x 10    add x 12    add x 13   add x 13   add x 14  add x -2  add x 11   add x -15    add x -10    add x 10   add x -10   add x -4   add x -1  add x -1    v   x = z[n-1] % 26 + a   a = various
+eql x w     eql x w     eql x w    eql x w    eql x w   eql x w   eql x w    eql x w      eql x w      eql x w    eql x w     eql x w    eql x w   eql x w     x
+eql x 0     eql x 0     eql x 0    eql x 0    eql x 0   eql x 0   eql x 0    eql x 0      eql x 0      eql x 0    eql x 0     eql x 0    eql x 0   eql x 0     x    x = 0 or 1 based on w
+mul y 0     mul y 0     mul y 0    mul y 0    mul y 0   mul y 0   mul y 0    mul y 0      mul y 0      mul y 0    mul y 0     mul y 0    mul y 0   mul y 0 -   x
+add y 25    add y 25    add y 25   add y 25   add y 25  add y 25  add y 25   add y 25     add y 25     add y 25   add y 25    add y 25   add y 25  add y 25     x
+mul y x     mul y x     mul y x    mul y x    mul y x   mul y x   mul y x    mul y x      mul y x      mul y x    mul y x     mul y x    mul y x   mul y x      x  y = 25 * (0 or 1) based on w
+add y 1     add y 1     add y 1    add y 1    add y 1   add y 1   add y 1    add y 1      add y 1      add y 1    add y 1     add y 1    add y 1   add y 1      x  y = 1 or 26 (based on w)
+mul z y     mul z y     mul z y    mul z y    mul z y   mul z y   mul z y    mul z y      mul z y      mul z y    mul z y     mul z y    mul z y   mul z y      x  z = z[n-1]/q * 1 or 26 (based on w)
+mul y 0     mul y 0     mul y 0    mul y 0    mul y 0   mul y 0   mul y 0    mul y 0      mul y 0      mul y 0    mul y 0     mul y 0    mul y 0   mul y 0 |    x
+add y w     add y w     add y w    add y w    add y w   add y w   add y w    add y w      add y w      add y w    add y w     add y w    add y w   add y w |    x
+add y 0     add y 6     add y 4    add y 2    add y 9   add y 1   add y 10   add y 6      add y 4      add y 6    add y 3     add y 9    add y 15  add y 5 |    v  y = w + b
+mul y x     mul y x     mul y x    mul y x    mul y x   mul y x   mul y x    mul y x      mul y x      mul y x    mul y x     mul y x    mul y x   mul y x |    x  y = (w + b) * (0 or 1) based on w
+add z y     add z y     add z y    add z y    add z y   add z y   add z y    add z y      add z y      add z y    add z y     add z y    add z y   add z y |    x  z = z[n-1] * 1 or 26 + (w + b) * (0 or 1)
+
+
+0 = z[n-1]/26 * (25 * ((z[n-1] % 26) - 1 == w13 ? 0 : 1) + 1) + ((w13 + 5) * x)
+z[n-1] = (z * (25 * ((z[n-2] % 26) - 1 == w12 ? 0 : 1) + 1) + ((w12 + 15) * x)
+
+(z/26 * ((25 * t) + 1)) + ((w + a2) * t)
+
+t = ((z % 26) + a2) == w ? 0 : 1
+
+d=1 or d=26
+a1=10,12,13,13,14,-2,11,-15,-10,-4,-1,-1
+when d=26 a1 is negative
+a2=0,6,4,2,9,1,10,6,4,6,3,9,15,5
+w=1-9
+
+f(d, a1, a2, z, w) = {
+    if ((z % 26 + a1) == w) {
+      z/d
+    }
+    else {
+       ((z/d) * 26) + w + a2
+    }
+}
+
+d=26
+
+if (0 + a1 = w)
+if (w == a1) // not possible as a1 negative when d=26
+
+r = z + w + a2
+z = r-w-a2
+
+d=1
+if ((z % 26 + a1) == w) {
+  z
+}
+else {
+   (z * 26) + w + a2
+}
+
+z % 26 = w - a1
+
+if z % 26
+
+
+w=1, z%26 = 1 - a1
+if d=1, z must be r
+if d=26 z must be 26r - implies z % 26 = 0 => a1 = w
+1+a1 = w
+1 = w - a1
+w = 1 + a1
+if d=26 && a1=w then z=26r - a1 negative so can't equal w
+so
+if d=26 then z=r-w-a2
+
+if d=1, a1 is positive (11 - 14)
+r%26 between -13 and -2 => r < w-a1
+so z < w-a1
+
+if d=26 then z=r-w-a2
+if d=1 && r%26=w-a1 then z=r
+if d=1 && r%26!=w-a1 then z=(r-w-a2)/26 - needs to divide exactly or not a result
+
+if d=1 && r%26=w-a1  (1-9) - (-15 to 14) = -23 to 24
+
+26z=r-w-a2
+z=(r-w-a2)/26
+
+
+z % 26 = w - a1
+z > dr
+
+
+
+z2 = 26z/d + w + a2
+z2 - w - a2 = 26z
+
+z = z2 - w - a2 / 26
+
+// what inputs of z give a result
+
+fr(d,a1,a2,w,zr) = {
+    x = zr - w - a2
+    r = List(w - a1 + (zr * d))
+
+    if (x % 26 == 0) {// reverse of * 26
+        r = x/26 * d :: r
+    }
+}
+
+z % 26 = w - a1
+
+w 1-9 a1 -12 to 12
+
+-11 to 21
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
